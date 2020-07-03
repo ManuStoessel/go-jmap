@@ -1,6 +1,7 @@
 package client
 
 import (
+	"bytes"
 	"encoding/json"
 	"net/http"
 	"time"
@@ -45,6 +46,24 @@ func (c *JMAPClient) GetSession() error {
 	}
 
 	return json.NewDecoder(resp.Body).Decode(c.Session)
+}
+
+// JMAPRequest sends a request to a JMAP API and hands over the response in a
+// generic interface
+func (c *JMAPClient) JMAPRequest(data []byte, response interface{}) error {
+	req, err := http.NewRequest("POST", c.getAuthURL(), bytes.NewBuffer(data))
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.SetBasicAuth(c.Username, c.Password)
+	resp, err := c.Client.Do(req)
+	if err != nil {
+		return err
+	}
+
+	return json.NewDecoder(resp.Body).Decode(response)
 }
 
 func (c *JMAPClient) getAuthURL() string {
