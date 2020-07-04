@@ -50,10 +50,11 @@ func (c *JMAPClient) GetSession() error {
 	return json.NewDecoder(resp.Body).Decode(c.Session)
 }
 
-// JMAPRequest sends a request to a JMAP API and hands over the response in a
-// generic interface
-func (c *JMAPClient) JMAPRequest(data []byte) ([]byte, error) {
-	req, err := http.NewRequest("POST", c.getAuthURL(), bytes.NewBuffer(data))
+// JMAPSendRequest sends a request to a JMAP API and returns the response
+// For a call to a JMAP API to work, the GetSession call has to be done first
+// so that the apiUrl parameter is available
+func (c *JMAPClient) JMAPSendRequest(data []byte) ([]byte, error) {
+	req, err := http.NewRequest("POST", c.Session.APIUrl, bytes.NewBuffer(data))
 	if err != nil {
 		return nil, err
 	}
