@@ -35,6 +35,14 @@ const (
 	// JMAPCapabilityURNMail is the identifier for mail capabilities in the
 	// JMAP spec https://jmap.io/spec-mail.html
 	JMAPCapabilityURNMail string = "urn:ietf:params:jmap:mail"
+
+	// JMAPCapabilityURNSubmission is the identifier for mail submission
+	// capabilities in the JMAP spec https://jmap.io/spec-mail.html
+	JMAPCapabilityURNSubmission string = "urn:ietf:params:jmap:submission"
+
+	// JMAPCapabilityURNResponse is the identifier for mail vacation responder
+	// capabilities in the JMAP spec https://jmap.io/spec-mail.html
+	JMAPCapabilityURNResponse string = "urn:ietf:params:jmap:vacationresponse"
 )
 
 // UnmarshalJSON is a custom json unmarshaling function for the
